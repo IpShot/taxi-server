@@ -1,16 +1,20 @@
 import sys
-sys.path.insert(0, './logic')
+sys.path.append('./logic')
+sys.path.append('./utils')
 
 from flask import Flask, request
 from car import Car
+from dispatcher import Dispatcher
 
 app = Flask(__name__)
+dispatcher = Dispatcher()
 
 # Taxi routes
 @app.route('/car/release', methods=['POST', 'PUT'])
 def handle_release_car():
 	car = Car(request.form)
-	print(car.get_position())
+	if car.is_valid():
+		dispatcher.release_car(car)
 	return ''
 
 # Passenger routes
