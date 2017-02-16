@@ -1,10 +1,17 @@
-from flask import Flask
+import sys
+sys.path.insert(0, './logic')
+
+from flask import Flask, request
+from car import Car
+
 app = Flask(__name__)
 
 # Taxi routes
-@app.route('/taxi/release', methods=['POST', 'PUT'])
-def handle_release_taxi():
-  return ''
+@app.route('/car/release', methods=['POST', 'PUT'])
+def handle_release_car():
+	car = Car(request.form)
+	print(car.get_position())
+	return ''
 
 # Passenger routes
 @app.route('/passenger/order/create', methods=['POST', 'PUT'])
