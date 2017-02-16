@@ -8,9 +8,9 @@ def handle_taxi_release():
 
 # Passenger routes
 @app.route('/passenger/order/create')
-	def handle_create_order():
-		return ''
+def handle_create_order():
+	return ''
 
 @app.route('/passenger/order/cancel')
-	def handle_cancel_order():
-		return ''
+def handle_cancel_order():
+	return ''
