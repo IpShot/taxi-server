@@ -24,8 +24,8 @@ def handle_create_order():
 
 @app.route('/passenger/order/cancel', methods=['POST', 'PUT'])
 def handle_cancel_order():
-	passenger = Passenger(request.form)
-	return dispatcher.cancel_order(passenger)
+	order_id = str(request.form['order_id'])
+	return dispatcher.cancel_order(order_id)
 
 if __name__ == '__main__':
 	app.run(debug=True)

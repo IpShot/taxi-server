@@ -32,3 +32,18 @@ send_post(
 		'timestamp': time(),
 	}
 )
+
+# Cancel passenger order post request
+send_post(
+	'http://127.0.0.1:5000/passenger/order/cancel', 
+	{
+		'order_id': 'pas-1'
+	}
+)
+
+send_post(
+	'http://127.0.0.1:5000/passenger/order/cancel', 
+	{
+		'order_id': 'pas-2'
+	}
+)

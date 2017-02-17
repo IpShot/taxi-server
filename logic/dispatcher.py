@@ -9,7 +9,7 @@ class Dispatcher:
 		id = car.get_id()
 		if car.is_valid():
 			self.free_cars.append(car)
-			self.free_cars_map[id] = len(self.free_cars)
+			self.free_cars_map[id] = len(self.free_cars) - 1
 			msg = (
 				'Taxi id=' + id + 
 				': was released successfully'
@@ -28,7 +28,7 @@ class Dispatcher:
 		id = passenger.get_id()
 		if passenger.is_valid():
 			self.orders.append(passenger)
-			self.orders_map[id] = len(self.orders)
+			self.orders_map[id] = len(self.orders) - 1
 			msg = (
 				'Passenger id=' + id + 
 				': order was created successfully'
@@ -43,21 +43,20 @@ class Dispatcher:
 			print(msg)
 			return msg, 400
 
-	def cancel_order(self, passenger):
-		id = passenger.get_id()
-		if passenger.is_valid():
-			idx = self.orders_map[id]
+	def cancel_order(self, order_id):
+		idx = self.orders_map.get(order_id)
+		if idx == None:
+			msg = (
+				'Order wasn\'t canceled. ' + 
+				'Couldn\'t find an order with id=' + order_id
+			)
+			print(msg)
+			return msg, 404
+		else:
 			del self.orders[idx]
 			msg = (
-				'Passenger id=' + id + 
+				'Passenger id=' + order_id + 
 				': order was canceld successfully'
 			)
 			print(msg)
 			return msg, 200
-		else:
-			msg = (
-				'Passenger id=' + id + 
-				': cancel order request data is invalid'
-			)
-			print(msg)
-			return msg, 400
