@@ -11,7 +11,7 @@ from dispatcher import Dispatcher
 app = Flask(__name__)
 dispatcher = Dispatcher()
 
-# Create thread for dispatching taxis and orders loop
+# Create taxis and orders dispatching thread
 dispatcher_daemon = Thread(target=dispatcher.start_dispatching)
 dispatcher_daemon.daemon = True
 dispatcher_daemon.start()
@@ -33,5 +33,6 @@ def handle_cancel_order():
 	order_id = str(request.form['order_id'])
 	return dispatcher.cancel_order(order_id)
 
+# Start flask app
 if __name__ == '__main__':
 	app.run(debug=True)
