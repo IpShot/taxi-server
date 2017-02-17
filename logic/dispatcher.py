@@ -31,9 +31,8 @@ class Dispatcher:
 		else:
 			return self.free_cars[0]
 
-
 	##
-	# Searching taxi for each order
+	# Searching taxi for an order
 	#	
 	def _dispatch_order(self, order):
 		filing_time = order.get_time()
@@ -43,10 +42,20 @@ class Dispatcher:
 		# then passenger want to take taxi now
 		if filing_time == None or time() >= filing_time:
 			taxi = self._find_nearest_taxi(order)
+
+			# Remove binded order and taxi
+			order_id = order.get_id()
+			order_idx = self.orders_map.get(order_id)
+			del self.orders[order_idx]
+			del self.orders_map[order_id]
+
+			taxi_id = taxi.get_id()
+			taxi_idx = self.free_cars_map.get(taxi_id)
+			del self.free_cars[taxi_id]
+			del self.free_cars_map[taxi_idx]
 		else:
 			return
 				
-
 	##
 	# Send new car to dispatching thread
 	# After release taxi can take a passenger
@@ -82,7 +91,6 @@ class Dispatcher:
 		self.lock.release()
 		print(res[0])
 		return res
-
 
 	##
 	# Send new order to dispatching thread
