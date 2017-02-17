@@ -5,8 +5,8 @@ try:
 	requests.post(
 		'http://127.0.0.1:5000/car/release', 
 		{
-			'id':'car-1', 
-			'lattitude': 58.3243,
+			'id': 'car-1', 
+			'lattitude': 85.4324,
 			'longtitude': 92.2133,
 		}
 	)
