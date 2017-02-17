@@ -54,6 +54,7 @@ class Dispatcher:
 			return msg, 404
 		else:
 			del self.orders[idx]
+			del self.orders_map[order_id]
 			msg = (
 				'Passenger id=' + order_id + 
 				': order was canceld successfully'

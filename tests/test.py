@@ -47,3 +47,10 @@ send_post(
 		'order_id': 'pas-2'
 	}
 )
+
+send_post(
+	'http://127.0.0.1:5000/passenger/order/cancel', 
+	{
+		'order_id': 'pas-1'
+	}
+)
