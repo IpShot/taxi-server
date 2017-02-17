@@ -12,14 +12,11 @@ class Passenger(PositionedObject):
 		# If timestamp exists in request (is not None) and
 		# conv() returns None (means timestamp is not float)
 		# then the request data is invalid
-		if time != None and self.time == None:
-			self.valid = False
-		else:
-			self.valid = True
+		self.valid = not (time != None and self.time == None)
 
 	def is_valid(self):
 		return (
-			self.id == None
+			self.id != None
 			and self.lat != None 
 			and self.lon != None
 			and self.valid
