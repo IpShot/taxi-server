@@ -1,14 +1,15 @@
-from converter import conv
+from positioned_object import PositionedObject
 
-class Car:
+class Car(PositionedObject):
 	def __init__(self, data):
-		self.id = conv(data['id'], str)
-		self.lat = conv(data['lattitude'], float)
-		self.lot = conv(data['longtitude'], float)
+		super(Car, self).__init__(data)
+		self.free = True
 
-	def is_valid(self):
-		return (
-			self.id != None 
-			and self.lat != None 
-			and self.lot != None
-		)
+	def is_free():
+		return self.free
+
+	def take():
+		self.free = False
+
+	def release():
+		self.free = True
