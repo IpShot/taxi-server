@@ -16,8 +16,11 @@ class PositionedObject:
 	def get_id(self):
 		return self.id
 
-	def get_lat(self):
-		return self.lat
-
-	def get_lon(self):
-		return self.lon
+	##
+	# Return lattitude and longtitude coordinates
+	#
+	def get_coordinates(self):
+		return {
+			'lon': self.lon,
+			'lat': self.lat,
+		}

@@ -1,5 +1,6 @@
-from time import sleep
+from time import time, sleep
 from threading import Lock
+from calculator import distance
 
 class Dispatcher:
 	def __init__(self):
@@ -9,13 +10,50 @@ class Dispatcher:
 		self.free_cars_map = {}
 		self.lock = Lock()
 
+	def _find_nearest_taxi(order):
+		if len(self.free_cars) > 1:
+			passenger_coordinates = order.get_coordinates()
+			nearest_taxi = self.free_cars[0]
+			dist = distance(
+				passenger_coordinates,
+				nearest_taxi.get_coordinates(),
+			)
+			for i in range(1, len(self.free_cars)):
+				car = self.free_cars[i]
+				new_dist = distance(
+					passenger_coordinates,
+					car.get_coordinates(),
+				)
+				if (new_dist < dist):
+					dist = new_dist
+					nearest_taxi = car
+			return nearest_taxi
+		else:
+			return self.free_cars[0]
+
+
 	##
-	#	Send new car to dispatching thread
-	#	After release taxi can take a passenger
-	#	@params:
-	#		car - instance of Car
-	#	@return: 
-	#		http response (msg, code)
+	# Searching taxi for each order
+	#	
+	def _dispatch_order(self, order):
+		filing_time = order.get_time()
+
+		# If order has no deferred time or
+		# deffered time has already come
+		# then passenger want to take taxi now
+		if filing_time == None or time() >= filing_time:
+			taxi = self._find_nearest_taxi(order)
+		else:
+			return
+				
+
+	##
+	# Send new car to dispatching thread
+	# After release taxi can take a passenger
+	# @params:
+	#   car - instance of Car
+	# @return: 
+	#   http response (msg, code)
 	#	
 	def release_car(self, car):
 		self.lock.acquire(1)
@@ -47,11 +85,11 @@ class Dispatcher:
 
 
 	##
-	#	Send new order to dispatching thread
-	#	@params:
-	#		passenger - instance of Passenger
-	#	@return: 
-	#		http response (msg, code)
+	# Send new order to dispatching thread
+	# @params:
+	#   passenger - instance of Passenger
+	# @return: 
+	#   http response (msg, code)
 	#
 	def create_order(self, passenger):
 		self.lock.acquire(1)
@@ -82,11 +120,11 @@ class Dispatcher:
 		return res
 
 	##
-	#	Remove order from dispatching thread
-	#	@params:
-	#		order_id - string
-	#	@return: 
-	#		http response (msg, code)
+	# Remove order from dispatching thread
+	# @params:
+	#   order_id - string
+	# @return: 
+	#   http response (msg, code)
 	#
 	def cancel_order(self, order_id):
 		self.lock.acquire(1)
@@ -111,10 +149,14 @@ class Dispatcher:
 		return res
 
 	##
-	#	Run dispatching taxis and orders thread
-	##
+	# Run dispatching taxis and orders thread
+	#
 	def start_dispatching(self):
 		while True:
-			while len(self.orders) > 0:
-				order = self.take_order()
+			self.lock.acquire(1)
+			# If we have at least one free taxi
+			if len(self.free_cars) > 0:
+				for order in self.orders:
+					self._dispatch_order(order)
+			self.lock.release()
 			sleep(1)

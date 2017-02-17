@@ -12,9 +12,9 @@ app = Flask(__name__)
 dispatcher = Dispatcher()
 
 # Create taxis and orders dispatching thread
-dispatcher_daemon = Thread(target=dispatcher.start_dispatching)
-dispatcher_daemon.daemon = True
-# dispatcher_daemon.start()
+dispatching = Thread(target=dispatcher.start_dispatching)
+dispatching.daemon = True
+# dispatching.start()
 
 # Taxi routes
 @app.route('/car/release', methods=['POST', 'PUT'])

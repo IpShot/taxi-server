@@ -9,6 +9,9 @@ class Passenger(PositionedObject):
 		self._validate_time(time)
 		
 	def _validate_time(self, time):
+		# If timestamp exists in request (is not None) and
+		# conv() returns None (means timestamp is not float)
+		# then the request data is invalid
 		if time != None and self.time == None:
 			self.valid = False
 		else:
