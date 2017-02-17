@@ -1,3 +1,5 @@
+from time import sleep
+
 class Dispatcher:
 	def __init__(self):
 		self.free_cars = []
@@ -8,14 +10,22 @@ class Dispatcher:
 	def release_car(self, car):
 		id = car.get_id()
 		if car.is_valid():
-			self.free_cars.append(car)
-			self.free_cars_map[id] = len(self.free_cars) - 1
-			msg = (
-				'Taxi id=' + id + 
-				': was released successfully'
-			)
-			print(msg)
-			return msg, 200
+			if self.free_cars_map.get(id) == None:
+				self.free_cars.append(car)
+				self.free_cars_map[id] = len(self.free_cars) - 1
+				msg = (
+					'Taxi id=' + id + 
+					': was released successfully'
+				)
+				print(msg)
+				return msg, 200
+			else:
+				msg = (
+					'Taxi id=' + id + 
+					': the car has already released'
+				)
+				print(msg)
+				return msg, 200
 		else:
 			msg = (
 				'Taxi id=' + id + 
@@ -27,14 +37,22 @@ class Dispatcher:
 	def create_order(self, passenger):
 		id = passenger.get_id()
 		if passenger.is_valid():
-			self.orders.append(passenger)
-			self.orders_map[id] = len(self.orders) - 1
-			msg = (
-				'Passenger id=' + id + 
-				': order was created successfully'
-			)
-			print(msg)
-			return msg, 200
+			if self.orders_map.get(id) == None:
+				self.orders.append(passenger)
+				self.orders_map[id] = len(self.orders) - 1
+				msg = (
+					'Passenger id=' + id + 
+					': order was created successfully'
+				)
+				print(msg)
+				return msg, 200
+			else:
+				msg = (
+					'Passenger id=' + id + 
+					': the order has already created'
+				)
+				print(msg)
+				return msg, 200
 		else:
 			msg = (
 				'Passenger id=' + id + 
@@ -61,3 +79,10 @@ class Dispatcher:
 			)
 			print(msg)
 			return msg, 200
+
+	##
+	#	Run thread for dispatching taxis and orders loop
+	##
+	def start_dispatching(self):
+		while True:
+			sleep(1)

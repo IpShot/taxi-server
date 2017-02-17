@@ -3,12 +3,18 @@ sys.path.append('./logic')
 sys.path.append('./utils')
 
 from flask import Flask, request
+from threading import Thread
 from car import Car
 from passenger import Passenger
 from dispatcher import Dispatcher
 
 app = Flask(__name__)
 dispatcher = Dispatcher()
+
+# Create thread for dispatching taxis and orders loop
+dispatcher_daemon = Thread(target=dispatcher.start_dispatching)
+dispatcher_daemon.daemon = True
+dispatcher_daemon.start()
 
 # Taxi routes
 @app.route('/car/release', methods=['POST', 'PUT'])
