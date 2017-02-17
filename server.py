@@ -14,7 +14,7 @@ dispatcher = Dispatcher()
 # Create taxis and orders dispatching thread
 dispatcher_daemon = Thread(target=dispatcher.start_dispatching)
 dispatcher_daemon.daemon = True
-dispatcher_daemon.start()
+# dispatcher_daemon.start()
 
 # Taxi routes
 @app.route('/car/release', methods=['POST', 'PUT'])

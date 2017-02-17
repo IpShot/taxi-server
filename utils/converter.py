@@ -4,3 +4,5 @@ def conv(data, type):
 	except ValueError as e:
 		print(e)
 		return None
+	except:
+		return None
