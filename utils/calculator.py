@@ -10,11 +10,11 @@ def deg_to_rad(point):
 	}
 
 ##
-#	Calculate distance between points with
-#	lattitude and longtitude coordinates
-#	@params:
-#	  point1 - { 'lat': float, 'lon': float } in degrees
-#	  point2 - { 'lat': float, 'lon': float } in degrees
+# Calculate distance between points with
+# lattitude and longtitude coordinates
+# @params:
+#   point1 - { 'lat': float, 'lon': float } in degrees
+#   point2 - { 'lat': float, 'lon': float } in degrees
 # @return:
 #   distance between point1 and point2 in meters
 #   
