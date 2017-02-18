@@ -26,10 +26,20 @@ send_post(
 send_post(
 	'http://127.0.0.1:5000/passenger/order/create', 
 	{
+		'id': 'pas-2',
+		'latitude': 98.4324,
+		'longitude': 108.2133,
+		# 'timestamp': time(),
+	}
+)
+
+send_post(
+	'http://127.0.0.1:5000/passenger/order/create', 
+	{
 		'id': 'pas-1', 
-		'latitude': 85.4324,
-		'longitude': 92.2133,
-		'timestamp': time() + 3,
+		'latitude': 88.4324,
+		'longitude': 98.2133,
+		# 'timestamp': time(),
 	}
 )
 

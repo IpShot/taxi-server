@@ -2,12 +2,23 @@ from time import time, sleep
 from threading import Lock
 from calculator import distance
 
+##
+# Searching the element index in the list by id
+#
+def find_idx_by_id(l, id):
+	return next(
+		(i for i, x in enumerate(l) if x.id == id), 
+		None,
+	)
+
+##
+# The class is dispatching http request 
+# and searching taxis for each order
+#
 class Dispatcher:
 	def __init__(self):
 		self.free_cars = []
 		self.orders = []
-		self.orders_map = {}
-		self.free_cars_map = {}
 		self.lock = Lock()
 
 	def _find_nearest_taxi(self, order):
@@ -45,14 +56,13 @@ class Dispatcher:
 
 			# Remove binded order and taxi
 			order_id = order.get_id()
-			order_idx = self.orders_map.get(order_id)
+			order_idx = find_idx_by_id(self.orders, order_id)
 			del self.orders[order_idx]
-			del self.orders_map[order_id]
 
 			taxi_id = taxi.get_id()
-			taxi_idx = self.free_cars_map.get(taxi_id)
+			taxi_idx = find_idx_by_id(self.free_cars, taxi_id)
 			del self.free_cars[taxi_idx]
-			del self.free_cars_map[taxi_id]
+
 			print(
 				'Taxi id=%s and Passenger id=%s were dispatched successfully'
 				% (taxi_id, order_id)
@@ -74,9 +84,9 @@ class Dispatcher:
 		res = ('', 200)
 
 		if car.is_valid():
-			if self.free_cars_map.get(id) == None:
+			idx = find_idx_by_id(self.free_cars, id)
+			if idx == None:
 				self.free_cars.append(car)
-				self.free_cars_map[id] = len(self.free_cars) - 1
 				res = ((
 					'Taxi id=' + id + 
 					': was released successfully'
@@ -109,9 +119,9 @@ class Dispatcher:
 		res = ('', 200)
 
 		if passenger.is_valid():
-			if self.orders_map.get(id) == None:
+			idx = find_idx_by_id(self.orders, id)
+			if idx == None:
 				self.orders.append(passenger)
-				self.orders_map[id] = len(self.orders) - 1
 				res = ((
 					'Passenger id=' + id + 
 					': order was created successfully'
@@ -140,7 +150,7 @@ class Dispatcher:
 	#
 	def cancel_order(self, order_id):
 		self.lock.acquire(1)
-		idx = self.orders_map.get(order_id)
+		idx = find_idx_by_id(self.free_cars, order_id)
 		res = ('', 200)
 
 		if idx == None:
@@ -150,7 +160,6 @@ class Dispatcher:
 			), 404)
 		else:
 			del self.orders[idx]
-			del self.orders_map[order_id]
 			res = ((
 				'Passenger id=' + order_id + 
 				': order was canceld successfully'
