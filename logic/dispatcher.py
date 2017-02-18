@@ -10,7 +10,7 @@ class Dispatcher:
 		self.free_cars_map = {}
 		self.lock = Lock()
 
-	def _find_nearest_taxi(order):
+	def _find_nearest_taxi(self, order):
 		if len(self.free_cars) > 1:
 			passenger_coordinates = order.get_coordinates()
 			nearest_taxi = self.free_cars[0]
@@ -51,8 +51,12 @@ class Dispatcher:
 
 			taxi_id = taxi.get_id()
 			taxi_idx = self.free_cars_map.get(taxi_id)
-			del self.free_cars[taxi_id]
-			del self.free_cars_map[taxi_idx]
+			del self.free_cars[taxi_idx]
+			del self.free_cars_map[taxi_id]
+			print(
+				'Taxi id=%s and Passenger id=%s were dispatched successfully'
+				% (taxi_id, order_id)
+			)
 		else:
 			return
 				

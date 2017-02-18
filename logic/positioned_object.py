@@ -3,8 +3,8 @@ from converter import conv
 class PositionedObject:
 	def __init__(self, data):
 		self.id = conv(data['id'], str)
-		self.lat = conv(data['lattitude'], float)
-		self.lon = conv(data['longtitude'], float)
+		self.lat = conv(data['latitude'], float)
+		self.lon = conv(data['longitude'], float)
 
 	def is_valid(self):
 		return (

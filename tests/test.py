@@ -17,8 +17,8 @@ send_post(
 	'http://127.0.0.1:5000/car/release', 
 	{
 		'id': 'car-1', 
-		'lattitude': 85.4324,
-		'longtitude': 92.2133,
+		'latitude': 85.4324,
+		'longitude': 92.2133,
 	}
 )
 
@@ -27,19 +27,19 @@ send_post(
 	'http://127.0.0.1:5000/passenger/order/create', 
 	{
 		'id': 'pas-1', 
-		'lattitude': 85.4324,
-		'longtitude': 92.2133,
-		'timestamp': time(),
+		'latitude': 85.4324,
+		'longitude': 92.2133,
+		'timestamp': time() + 3,
 	}
 )
 
 # Cancel passenger order post request
-send_post(
-	'http://127.0.0.1:5000/passenger/order/cancel', 
-	{
-		'order_id': 'pas-1'
-	}
-)
+# send_post(
+# 	'http://127.0.0.1:5000/passenger/order/cancel', 
+# 	{
+# 		'order_id': 'pas-1'
+# 	}
+# )
 
 send_post(
 	'http://127.0.0.1:5000/passenger/order/cancel', 
@@ -48,9 +48,9 @@ send_post(
 	}
 )
 
-send_post(
-	'http://127.0.0.1:5000/passenger/order/cancel', 
-	{
-		'order_id': 'pas-1'
-	}
-)
+# send_post(
+# 	'http://127.0.0.1:5000/passenger/order/cancel', 
+# 	{
+# 		'order_id': 'pas-1'
+# 	}
+# )
