@@ -39,8 +39,10 @@ class Dispatcher:
 					dist = new_dist
 					nearest_taxi = car
 			return nearest_taxi
-		else:
+		elif len(self.free_cars) == 1:
 			return self.free_cars[0]
+		else:
+			return None
 
 	##
 	# Searching taxi for an order
@@ -53,6 +55,9 @@ class Dispatcher:
 		# then passenger want to take taxi now
 		if filing_time == None or time() >= filing_time:
 			taxi = self._find_nearest_taxi(order)
+
+			if taxi == None:
+				return
 
 			# Remove binded order and taxi
 			order_id = order.get_id()
@@ -150,7 +155,7 @@ class Dispatcher:
 	#
 	def cancel_order(self, order_id):
 		self.lock.acquire(1)
-		idx = find_idx_by_id(self.free_cars, order_id)
+		idx = find_idx_by_id(self.orders, order_id)
 		res = ('', 200)
 
 		if idx == None:

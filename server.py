@@ -19,17 +19,20 @@ dispatching.start()
 # Taxi routes
 @app.route('/car/release', methods=['POST', 'PUT'])
 def handle_release_car():
+	# print(request.form)
 	car = Car(request.form)
 	return dispatcher.release_car(car)
 
 # Passenger routes
 @app.route('/passenger/order/create', methods=['POST', 'PUT'])
 def handle_create_order():
+	# print(request.form)
 	passenger = Passenger(request.form)
 	return dispatcher.create_order(passenger)
 
 @app.route('/passenger/order/cancel', methods=['POST', 'PUT'])
 def handle_cancel_order():
+	# print(request.form)
 	order_id = str(request.form['order_id'])
 	return dispatcher.cancel_order(order_id)
 
