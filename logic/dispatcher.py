@@ -1,15 +1,7 @@
 from time import time, sleep
 from threading import Lock
 from calculator import distance
-
-##
-# Searching the element index in the list by id
-#
-def find_idx_by_id(l, id):
-	return next(
-		(i for i, x in enumerate(l) if x.id == id), 
-		None,
-	)
+from find import find_idx_by_id
 
 ##
 # The class is dispatching http request 
@@ -186,3 +178,15 @@ class Dispatcher:
 					self._dispatch_order(order)
 			self.lock.release()
 			sleep(1)
+
+	## 
+	# Using in tests for reset data from previous tests
+	#
+	def reset(self):
+		self.lock.acquire(1)
+		del self.free_cars[:]
+		del self.orders[:]
+		self.lock.release()
+		msg = 'Data was reset successfully'
+		print(msg)
+		return msg, 200

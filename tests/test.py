@@ -5,17 +5,29 @@ from time import time, sleep
 from random import random, uniform
 from send_post import send_post
 
+
+##
+# In the test we are generating threads of taxis
+# and passengers (with timestamp and without) to
+# check how our server is processing it
+##
+
+
 # Constants
 API_URL = 'http://127.0.0.1:5000'
 RELEASE_CAR_URL = API_URL + '/car/release'
 CREATE_ORDER_URL = API_URL + '/passenger/order/create'
 CANCEL_ORDER_URL = API_URL + '/passenger/order/cancel'
+RESET_URL = API_URL + '/reset'
+
+# Reset data app from previous tests
+send_post(RESET_URL, {})
 
 ##
 # Generate taxis and passsengers
 #
 while True:
-	sleep(0.5)
+	sleep(0.3)
 	c = random()
 	p = random()
 	t = random()

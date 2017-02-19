@@ -2,6 +2,16 @@ import sys
 sys.path.append('../utils')
 from send_post import send_post
 
+
+##
+#  In the test passenger pas-1 should be 
+#  delivered by the nearest car-2 taxi
+##
+
+
+# Reset data app from previous tests
+send_post('http://127.0.0.1:5000/reset', {})
+
 # Release taxi post request
 send_post(
 	'http://127.0.0.1:5000/car/release', 
