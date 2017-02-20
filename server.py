@@ -3,17 +3,30 @@ sys.path.append('./logic')
 sys.path.append('./utils')
 
 from flask import Flask, request
-from threading import Thread
+from threading import Thread, Lock
 from car import Car
 from passenger import Passenger
 from dispatcher import Dispatcher
+from worker import Worker
+from db import Database
 import logging
 
+
 app = Flask(__name__)
-dispatcher = Dispatcher()
+
+# Create thread lock for manage access 
+# to db from dispatcher and worker 
+lock = Lock()
+
+# Create fake database
+db = Database()
+
+# Create main handlers
+dispatcher = Dispatcher(db, lock)
+worker = Worker(db, lock)
 
 # Create taxis and orders dispatching thread
-dispatching = Thread(target=dispatcher.start_dispatching)
+dispatching = Thread(target=worker.run)
 dispatching.daemon = True
 dispatching.start()
 
