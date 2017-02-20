@@ -26,8 +26,13 @@ class Database:
 			else:
 				return False
 		elif collection == 'orders':
-			self.orders.append(obj)
-			return True
+			order_id = obj.get_id()
+			idx = find_idx_by_id(self.orders, order_id)
+			if idx == None:
+				self.orders.append(obj)
+				return True
+			else:
+				return False
 
 	def remove(self, collection, obj, by_id=False):
 		if collection == 'cars':
