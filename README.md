@@ -1,7 +1,8 @@
 # Taxi concept
 
+This is a concept for a taxi service backend
+
 Used Python v3.5
-This is a simple concept for taxi service backend
 
 ## 
 
